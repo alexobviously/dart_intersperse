@@ -25,16 +25,40 @@ void main() {
       final Iterable<int> sut = intersperse(-1, List.generate(1000000, (a) => a));
       expect(0, sut.first);
     });
-    test('interval-2', () {
+    test('interval: 2', () {
       expect(
-        intersperse(-1, <int>[0, 0, 0, 0, 0, 0], interval: 2),
+        intersperse(-1, <int>[0, 0, 0, 0, 0, 0], stride: 2),
         <int>[0, 0, -1, 0, 0, -1, 0, 0],
       );
     });
-    test('interval-3', () {
+    test('interval: 3', () {
       expect(
-        intersperse(-1, <int>[0, 0, 0, 0, 0, 0], interval: 3),
+        intersperse(-1, <int>[0, 0, 0, 0, 0, 0], stride: 3),
         <int>[0, 0, 0, -1, 0, 0, 0],
+      );
+    });
+    test('offset: 0', () {
+      expect(
+        intersperse(-1, <int>[0, 0, 0, 0, 0], offset: 0),
+        <int>[-1, 0, -1, 0, -1, 0, -1, 0, -1, 0],
+      );
+    });
+    test('offset: 2', () {
+      expect(
+        intersperse(-1, <int>[0, 0, 0, 0, 0], offset: 2),
+        <int>[0, 0, -1, 0, -1, 0, -1, 0],
+      );
+    });
+    test('offset: 2, stride: 3', () {
+      expect(
+        intersperse(-1, <int>[0, 0, 0, 0, 0, 0, 0, 0], offset: 2, stride: 3),
+        <int>[0, 0, -1, 0, 0, 0, -1, 0, 0, 0],
+      );
+    });
+    test('stride: -1', () {
+      expect(
+        () => intersperse(-1, <int>[0, 0, 0, 0, 0], stride: -1),
+        throwsArgumentError,
       );
     });
   });

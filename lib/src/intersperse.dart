@@ -5,18 +5,17 @@
 ///     final list1 = intersperse(2, <int>[]); // [];
 ///     final list2 = intersperse(2, [0]); // [0];
 ///     final list3 = intersperse(2, [0, 0]); // [0, 2, 0];
-///     final list4 = intersperse(2, [0, 0, 0, 0, 0, 0], interval: 2); // [0, 0, 2, 0, 0, 2, 0, 0];
+///     final list4 = intersperse(2, [0, 0, 0, 0, 0, 0], stride: 2); // [0, 0, 2, 0, 0, 2, 0, 0];
 ///
-Iterable<T> intersperse<T>(T element, Iterable<T> iterable, {int interval = 1}) sync* {
+Iterable<T> intersperse<T>(T element, Iterable<T> iterable, {int stride = 1, int? offset}) sync* {
+  if (stride < 1) throw ArgumentError.value(stride, 'stride', 'stride must be > 0');
   final iterator = iterable.iterator;
-  if (iterator.moveNext()) {
+  final _offset = offset ?? stride;
+  int pos = 0;
+  while (iterator.moveNext()) {
+    if (pos >= _offset && (pos - _offset) % stride == 0) yield element;
     yield iterator.current;
-    int x = 1;
-    while (iterator.moveNext()) {
-      if (x % interval == 0) yield element;
-      yield iterator.current;
-      x++;
-    }
+    pos++;
   }
 }
 

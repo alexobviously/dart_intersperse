@@ -27,14 +27,38 @@ void main() {
     });
     test('interval-2', () {
       expect(
-        <int>[0, 0, 0, 0, 0, 0].intersperse(-1, interval: 2),
+        <int>[0, 0, 0, 0, 0, 0].intersperse(-1, stride: 2),
         <int>[0, 0, -1, 0, 0, -1, 0, 0],
       );
     });
     test('interval-3', () {
       expect(
-        <int>[0, 0, 0, 0, 0, 0].intersperse(-1, interval: 3),
+        <int>[0, 0, 0, 0, 0, 0].intersperse(-1, stride: 3),
         <int>[0, 0, 0, -1, 0, 0, 0],
+      );
+    });
+    test('offset: 0', () {
+      expect(
+        <int>[0, 0, 0, 0, 0].intersperse(-1, offset: 0),
+        <int>[-1, 0, -1, 0, -1, 0, -1, 0, -1, 0],
+      );
+    });
+    test('offset: 2', () {
+      expect(
+        <int>[0, 0, 0, 0, 0].intersperse(-1, offset: 2),
+        <int>[0, 0, -1, 0, -1, 0, -1, 0],
+      );
+    });
+    test('offset: 2, stride: 3', () {
+      expect(
+        <int>[0, 0, 0, 0, 0, 0, 0, 0].intersperse(-1, offset: 2, stride: 3),
+        <int>[0, 0, -1, 0, 0, 0, -1, 0, 0, 0],
+      );
+    });
+    test('stride: -1', () {
+      expect(
+        () => <int>[0, 0, 0, 0, 0].intersperse(-1, stride: -1),
+        throwsArgumentError,
       );
     });
   });
